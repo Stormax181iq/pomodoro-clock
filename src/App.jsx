@@ -1,12 +1,15 @@
 import { useState } from "react";
 
+import useTimer from "./hooks/useTimer";
 import TimeLabel from "./components/TimeLabel";
 import Clock from "./components/Clock";
 
 function App() {
   const [breakLength, setBreakLength] = useState(5);
   const [sessionLength, setSessionLength] = useState(25);
-  const [isRunning, setIsRunning] = useState(false);
+  const sessionTimer = useTimer(sessionLength * 60 * 1000);
+  const breakTimer = useTimer(breakLength * 60 * 1000);
+  const isRunning = sessionTimer.isRunning || breakTimer.isRunning;
 
   return (
     <div className="flex h-dvh w-full flex-col items-center justify-center bg-red-400">
@@ -34,7 +37,8 @@ function App() {
           sessionLength={sessionLength}
           breakLength={breakLength}
           isRunning={isRunning}
-          setIsRunning={setIsRunning}
+          sessionTimer={sessionTimer}
+          breakTimer={breakTimer}
         />
       </div>
     </div>

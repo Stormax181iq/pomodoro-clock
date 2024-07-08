@@ -15,7 +15,11 @@ export default function TimeLabel({
       <div className="flex justify-around">
         <button
           className="px-2 py-1 hover:bg-red-300 disabled:cursor-default disabled:hover:bg-inherit"
-          onClick={() => setTimeLength(timeLength + 1)}
+          onClick={() => {
+            if (timeLength < 60) {
+              setTimeLength(timeLength + 1);
+            }
+          }}
           disabled={isDisabled}
         >
           <FontAwesomeIcon size="2xl" icon={faArrowUp} />
@@ -23,7 +27,11 @@ export default function TimeLabel({
         <p className="text-2xl">{timeLength}</p>
         <button
           className="px-2 py-1 hover:bg-red-300 disabled:cursor-default"
-          onClick={() => setTimeLength(timeLength - 1)}
+          onClick={() => {
+            if (timeLength > 1) {
+              setTimeLength(timeLength - 1);
+            }
+          }}
           disabled={isDisabled}
         >
           <FontAwesomeIcon size="2xl" icon={faArrowDown} />
