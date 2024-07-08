@@ -1,18 +1,10 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-import useTimer from "../hooks/useTimer";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
 
-export default function Clock({
-  sessionLength,
-  breakLength,
-  isRunning,
-  sessionTimer,
-  breakTimer,
-}) {
+export default function Clock({ isRunning, sessionTimer, breakTimer }) {
   const [isBreakPhase, setIsBreakPhase] = useState(false);
 
   const currentTimer = isBreakPhase ? breakTimer : sessionTimer;
@@ -50,8 +42,6 @@ export default function Clock({
 }
 
 Clock.propTypes = {
-  sessionLength: PropTypes.number.isRequired,
-  breakLength: PropTypes.number.isRequired,
   isRunning: PropTypes.bool.isRequired,
   sessionTimer: PropTypes.object.isRequired,
   breakTimer: PropTypes.object.isRequired,

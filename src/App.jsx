@@ -34,8 +34,6 @@ function App() {
           </div>
         </div>
         <Clock
-          sessionLength={sessionLength}
-          breakLength={breakLength}
           isRunning={isRunning}
           sessionTimer={sessionTimer}
           breakTimer={breakTimer}
