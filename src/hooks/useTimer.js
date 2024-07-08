@@ -14,8 +14,10 @@ const useTimer = (initialTime = 0, interval = 1000) => {
     clearInterval(intervalRef.current);
   }
 
-  function reset() {
-    setTime(initialTime);
+  function reset(newTime = initialTime) {
+    setTime(newTime);
+    setIsRunning(false);
+    clearInterval(intervalRef.current);
   }
 
   useEffect(() => {

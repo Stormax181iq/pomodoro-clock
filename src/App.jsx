@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import useTimer from "./hooks/useTimer";
 import TimeLabel from "./components/TimeLabel";
@@ -7,9 +7,33 @@ import Clock from "./components/Clock";
 function App() {
   const [breakLength, setBreakLength] = useState(5);
   const [sessionLength, setSessionLength] = useState(25);
+
   const sessionTimer = useTimer(sessionLength * 60 * 1000);
   const breakTimer = useTimer(breakLength * 60 * 1000);
   const isRunning = sessionTimer.isRunning || breakTimer.isRunning;
+
+  const previousSessionLength = useRef();
+  const previousBreakLength = useRef();
+
+  useEffect(() => {
+    previousSessionLength.current = sessionLength;
+  }, [sessionLength]);
+
+  useEffect(() => {
+    previousBreakLength.current = breakLength;
+  }, [breakLength]);
+
+  useEffect(() => {
+    if (previousSessionLength.current !== sessionLength) {
+      sessionTimer.reset(sessionLength * 60 * 1000);
+    }
+  }, [sessionTimer, sessionLength]);
+
+  useEffect(() => {
+    if (previousBreakLength.current !== breakLength) {
+      breakTimer.reset(breakLength * 60 * 1000);
+    }
+  }, [breakTimer, breakLength]);
 
   return (
     <div className="flex h-dvh w-full flex-col items-center justify-center bg-red-400">
