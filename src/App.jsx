@@ -12,25 +12,35 @@ function App() {
   const breakTimer = useTimer(breakLength * 60 * 1000);
   const isRunning = sessionTimer.isRunning || breakTimer.isRunning;
 
-  const previousSessionLength = useRef();
-  const previousBreakLength = useRef();
+  const previousSessionLengthRef = useRef();
+  const previousBreakLengthRef = useRef();
+
+  function handleChangeSessionLength(newSessionLength) {
+    setSessionLength(newSessionLength);
+    sessionTimer.reset(newSessionLength * 60 * 1000);
+  }
+
+  function handleChangeBreakLength(newBreakLength) {
+    setBreakLength(newBreakLength);
+    breakTimer.reset(newBreakLength * 60 * 1000);
+  }
 
   useEffect(() => {
-    previousSessionLength.current = sessionLength;
+    previousSessionLengthRef.current = sessionLength;
   }, [sessionLength]);
 
   useEffect(() => {
-    previousBreakLength.current = breakLength;
+    previousBreakLengthRef.current = breakLength;
   }, [breakLength]);
 
   useEffect(() => {
-    if (previousSessionLength.current !== sessionLength) {
+    if (previousSessionLengthRef.current !== sessionLength) {
       sessionTimer.reset(sessionLength * 60 * 1000);
     }
   }, [sessionTimer, sessionLength]);
 
   useEffect(() => {
-    if (previousBreakLength.current !== breakLength) {
+    if (previousBreakLengthRef.current !== breakLength) {
       breakTimer.reset(breakLength * 60 * 1000);
     }
   }, [breakTimer, breakLength]);
@@ -44,7 +54,7 @@ function App() {
             <TimeLabel
               title="Break"
               timeLength={breakLength}
-              setTimeLength={setBreakLength}
+              onChangeTime={handleChangeBreakLength}
               isDisabled={isRunning}
             />
           </div>
@@ -52,7 +62,7 @@ function App() {
             <TimeLabel
               title="Session"
               timeLength={sessionLength}
-              setTimeLength={setSessionLength}
+              onChangeTime={handleChangeSessionLength}
               isDisabled={isRunning}
             />
           </div>

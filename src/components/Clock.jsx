@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,10 +6,12 @@ import {
   faPlay,
   faPause,
   faRotateRight,
+  faForward,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function Clock({ isRunning, sessionTimer, breakTimer }) {
   const [isBreakPhase, setIsBreakPhase] = useState(false);
+  const audioRef = useRef();
 
   const currentTimer = isBreakPhase ? breakTimer : sessionTimer;
 
@@ -17,8 +19,14 @@ export default function Clock({ isRunning, sessionTimer, breakTimer }) {
     if (currentTimer.time <= 0) {
       currentTimer.reset();
       setIsBreakPhase(!isBreakPhase);
+      audioRef.current?.play();
     }
   }, [currentTimer, isBreakPhase]);
+
+  function skipPhase() {
+    currentTimer.reset();
+    setIsBreakPhase(!isBreakPhase);
+  }
 
   return (
     <div className="flex w-3/4 flex-col items-center justify-center">
@@ -52,7 +60,11 @@ export default function Clock({ isRunning, sessionTimer, breakTimer }) {
         <button className="m-1 p-2" onClick={() => currentTimer.reset()}>
           <FontAwesomeIcon icon={faRotateRight} />
         </button>
+        <button className="m-1 p-2" onClick={skipPhase}>
+          <FontAwesomeIcon icon={faForward} />
+        </button>
       </div>
+      <audio ref={audioRef} type="audio/mp3" src="/src/assets/beep.mp3"></audio>
     </div>
   );
 }

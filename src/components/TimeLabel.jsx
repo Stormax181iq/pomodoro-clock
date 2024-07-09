@@ -6,7 +6,7 @@ import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
 export default function TimeLabel({
   title,
   timeLength,
-  setTimeLength,
+  onChangeTime,
   isDisabled,
 }) {
   return (
@@ -17,7 +17,7 @@ export default function TimeLabel({
           className="px-2 py-1 hover:bg-red-300 disabled:cursor-default disabled:hover:bg-inherit"
           onClick={() => {
             if (timeLength < 60) {
-              setTimeLength(timeLength + 1);
+              onChangeTime(timeLength + 1);
             }
           }}
           disabled={isDisabled}
@@ -29,7 +29,7 @@ export default function TimeLabel({
           className="px-2 py-1 hover:bg-red-300 disabled:cursor-default"
           onClick={() => {
             if (timeLength > 1) {
-              setTimeLength(timeLength - 1);
+              onChangeTime(timeLength - 1);
             }
           }}
           disabled={isDisabled}
@@ -44,6 +44,6 @@ export default function TimeLabel({
 TimeLabel.propTypes = {
   title: PropTypes.string.isRequired,
   timeLength: PropTypes.number.isRequired,
-  setTimeLength: PropTypes.func.isRequired,
+  onChangeTime: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,
 };
